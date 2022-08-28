@@ -1,0 +1,22 @@
+.back-btn{
+    margin-top: 8px;
+    margin-bottom: 0px;
+    margin-left: 24px;
+    padding-left: 24px;
+    height: 24px;
+}
+
+.video-responsive {
+    overflow: hidden;
+    padding-bottom: 56.25%;
+    position: relative;
+    height: 0;
+  }
+  
+  .video-responsive iframe {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+  }

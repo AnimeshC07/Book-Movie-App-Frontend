@@ -1,0 +1,34 @@
+.appbar-toolbar {
+    display: flex;
+    flex-direction: row;
+    height: 36px;
+    padding: 8px 32px 8px 16px;
+    background-color: #222;
+}
+
+#bookshow-btn {
+    margin-right: 1%;
+    width: auto;
+}
+
+Link{
+    text-decoration: none;
+}
+
+.appbar-logo {
+    display: flex;
+    justify-self: left;
+    background-color: #ff7f7f;
+    height: 35px;
+    animation: rotation 8s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotateY(0deg);
+    }
+
+    to {
+        transform: rotateY(179deg);
+    }
+}
