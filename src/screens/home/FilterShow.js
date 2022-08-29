@@ -190,7 +190,7 @@ function FilterShow(props) {
                 <TextField
                     id="end_date"
                     name="end_date"
-                    label="Release End Start"
+                    label="Release Date End"
                     type='date'
                     InputLabelProps={{
                         shrink: true,
