@@ -119,7 +119,7 @@ function CardMovies(props) {
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={350} className={classes.gridList} cols={4}>
+      <GridList cellHeight={350} className={classes.gridList} cols={tileData.length < 4 && tileData.length > 0? tileData.length : 4}>
         {tileData.map(tile => (
           <GridListTile key={tile.id}>
             <Link to={`/movie/${tile.id}`}>
