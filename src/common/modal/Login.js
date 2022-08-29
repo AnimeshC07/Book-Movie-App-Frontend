@@ -18,6 +18,7 @@ export default function login(props) {
         //console.log(this.state);
     }
 
+    //getting the authenticator token using btoa to pass as authorization for login api call and storing the access-token in session storage
     const onUserLoginHandler = async (user) => {
         const param = window.btoa(`${user.username}:${user.password}`);
         try {

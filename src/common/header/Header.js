@@ -23,9 +23,11 @@ const styles = {
 function Header(props) {
   // const history = useHistory();
   const { classes } = props;
+  // For modal display
   const [showModal, setShowModal] = useState(false);
   // const [isLogin, setIslogin] = useState(false);
 
+  // To determine the login status
   let auth = window.sessionStorage.getItem('access-token');
 
   const onOpenModal = () => {
@@ -55,13 +57,14 @@ function Header(props) {
   }
 
   let button;
-
+// functionality related to login button : login / logout display
   if (auth == null) {
     button = <Button id="login-btn" variant="contained" color="default" onClick={() => onOpenModal()}>Login</Button>;
   } else {
     button = <Link to="/" style={{ textDecoration: 'none' }}> <Button id="login-btn" variant="contained" color="default" onClick={() => onLogoutReq()}>Logout</Button> </Link>;
   }
 
+  // functionality related to book show button : visible only in details page + login / book show functionality
   let bookButton;
   if(props.baseUrl.includes('movie')){
     if(auth == null){

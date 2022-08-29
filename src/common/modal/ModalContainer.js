@@ -23,7 +23,7 @@ export default function container(props){
       };
 
     return(
-        <Paper square>
+        <Paper square elevation={0}>
         <Tabs
           value={value}
           indicatorColor="secondary"

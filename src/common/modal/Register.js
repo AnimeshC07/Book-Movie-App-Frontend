@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Grid from "@material-ui/core/Grid";
 import Button from '@material-ui/core/Button';
-// import Paper from '@material-ui/core/Paper';
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
 
 export default function register(props) {
@@ -18,6 +17,7 @@ export default function register(props) {
         //console.log(this.state);
     }
 
+    // on register post call to api 
     const onRegisterHandler = async(user)=>{
         try{
             const response = await fetch("/api/v1/signup",{
@@ -51,7 +51,6 @@ export default function register(props) {
 
     return (
         <Grid container={true} >
-            {/* <Paper elevation={3} style={paperStyle}> */}
 
                 <ValidatorForm className='addStudent' noValidate autoComplete='off' onSubmit={e => onSubmitHandler(e)}>
 
@@ -81,7 +80,7 @@ export default function register(props) {
                         type='password'
                         onChange={e => changeInputHandler(e)}
                         validators={['required']}
-                        errorMessages={["Password can't be empty"]} /><br />
+                        errorMessages={["required"]} /><br />
 
                     <TextValidator id="mobile_number" placeholder='Contact _no*' variant="standard" name="mobile_number"
                         value={user.mobile_number} fullWidth
@@ -94,7 +93,6 @@ export default function register(props) {
 
                     <span id="msg"></span>
                 </ValidatorForm>
-            {/* </Paper> */}
         </Grid>
     );
 }

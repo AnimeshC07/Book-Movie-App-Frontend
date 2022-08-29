@@ -4,9 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-// import ListSubheader from '@material-ui/core/ListSubheader';
-// import IconButton from '@material-ui/core/IconButton';
-// import InfoIcon from '@material-ui/icons/Info';
 import { Link } from 'react-router-dom';
 
 
@@ -24,26 +21,10 @@ const styles = theme => ({
   },
 });
 
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
 function CardMovies(props) {
   const { classes } = props;
   const [tileData, settileData] = useState([]);
+  const [movies, setmovies] = useState([]);
 
   useEffect(() => {
     async function fetchPoster() {
@@ -51,14 +32,89 @@ function CardMovies(props) {
       const result = await response.json();
 
       const data = result.movies;
-      // console.log(data);
+      setmovies(data);
       settileData(data);
     }
     fetchPoster();
   }, []);
 
+  function stringToDate(_date, _format, _delimiter) {
+    var formatLowerCase = _format.toLowerCase();
+    var formatItems = formatLowerCase.split(_delimiter);
+    var dateItems = _date.split(_delimiter);
+    var monthIndex = formatItems.indexOf("mm");
+    var dayIndex = formatItems.indexOf("dd");
+    var yearIndex = formatItems.indexOf("yyyy");
+    var month = parseInt(dateItems[monthIndex], 10);
+    month -= 1;
+    var formatedDate = new Date(dateItems[yearIndex], month, dateItems[dayIndex]);
+    return formatedDate;
+  }
+
   useEffect(() => {
-    console.log(props.filters);
+    settileData(movies);
+  }, [props.handler]);
+
+  useEffect(() => {
+    const filters = props.filters;
+    if (filters.movie_name !== "" || filters.genre.length > 0 || filters.artist.length > 0 || filters.start_date !== "" || filters.end_date !== "") {
+      let data = [];
+      if (filters.movie_name !== "") {
+        data = movies.filter((movie) => {
+          return movie.title.toLowerCase().includes(filters.movie_name.toLowerCase());
+        })
+      }
+      if (filters.genre.length > 0) {
+        let temp = data.length > 0 ? data : movies;
+        temp.forEach((movie) => {
+          if (movie.genres !== null) {
+            let genreData = movie.genres.filter((gen) => {
+              return gen.includes(...filters.genre);
+            });
+            if(genreData.length > 0)
+              data.push(movie);
+          }
+        })
+      }
+      if (filters.artist.length > 0) {
+        let temp = data.length > 0 ? data : movies;
+        temp.forEach((movie) => {
+          if (movie.artists !== null) {
+            let artistData = movie.artists.filter((art) => {
+              let fullname = art.first_name + " " + art.last_name;
+              return fullname.includes(...filters.artist);
+            });
+            if(artistData.length > 0)
+              data.push(movie);
+          }
+        })
+      }
+      if (filters.start_date !== "") {
+        let temp = data.length > 0 ? data : movies;
+        data = temp.filter((movie) => {
+          const rel_date = stringToDate(movie.release_date, "yyyy-mm-dd", "-");
+          const start_date = stringToDate(filters.start_date, "yyyy-mm-dd", "-");
+          return rel_date > start_date;
+        })
+      }
+      if (filters.end_date !== "") {
+        let temp = data.length > 0 ? data : movies;
+        data = temp.filter((movie) => {
+          const rel_date = stringToDate(movie.release_date, "yyyy-mm-dd", "-");
+          const end_date = stringToDate(filters.end_date, "yyyy-mm-dd", "-");
+          return end_date > rel_date;
+        })
+      }
+      if(data.length > 0)
+         settileData(data);
+      else{
+        alert('No matching results found');
+      }
+    }
+
+    else {
+      settileData(movies);
+    }
   }, [props.filters]);
 
   return (

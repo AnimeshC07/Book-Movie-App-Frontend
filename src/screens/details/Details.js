@@ -45,9 +45,11 @@ function Details(props) {
     const back = '<';
     const spanBold = { fontWeight: 'bold' };
     const [tileData, settileData] = useState({});
-    const [artists , setartists] = useState([]);
-    let url = props.baseUrl + '/movies';;
-    useEffect(() => { 
+    const [artists, setartists] = useState([]);
+    let url = props.baseUrl + '/movies';
+
+    //fetching and processing the movies from api according to the id received
+    useEffect(() => {
         async function fetchPoster() {
             const url = `/api/v1/movies`;
             const response = await fetch(url);
@@ -58,8 +60,9 @@ function Details(props) {
                     return movie.id === props.match.params.id;
                 })
                 thisData[0].trailer_url = thisData[0].trailer_url.replace('watch?v=', 'embed/');
-                // thisData[0].release_date = thisData[0].release_date.toDateString();
                 thisData[0].genres = thisData[0].genres.join(', ');
+                let mydate = new Date(thisData[0].release_date);
+                thisData[0].release_date = mydate.toDateString();
 
                 settileData(thisData[0]);
                 setartists(thisData[0].artists);
@@ -75,7 +78,7 @@ function Details(props) {
 
     return (
         <div>
-            <Header baseUrl = {url} id = {props.match.params.id}/>
+            <Header baseUrl={url} id={props.match.params.id} />
             <Link to="/" style={{ textDecoration: 'none' }}>
                 <Typography className="back-btn" variant="h6" component="h2" gutterBottom>
                     {back} Back to Home
@@ -108,12 +111,12 @@ function Details(props) {
                             <Typography variant="h6" component="h2" gutterBottom>
                                 <span style={spanBold}>Rating: </span><span>{tileData.rating}</span>
                             </Typography>
-                            <br/>
+                            <br />
                             <Typography variant="h6" component="h2" gutterBottom>
                                 <span style={spanBold}>Plot: </span>
                                 <a href={tileData.wiki_url}>(Wiki Link)</a>
                                 <span>{tileData.storyline}</span>
-                            </Typography><br/>
+                            </Typography><br />
                             <Typography variant="h6" component="h2" gutterBottom>
                                 <span style={spanBold}>Trailer: </span>
                             </Typography>
@@ -153,9 +156,9 @@ function Details(props) {
                             <GridList cellHeight={350} className={classes.gridList} cols={2}>
                                 {artists.map(tile => (
                                     <GridListTile key={tile.id}>
-                                            <img src={tile.profile_url} alt={tile.profile_url} />
+                                        <img src={tile.profile_url} alt={tile.profile_url} />
                                         <GridListTileBar
-                                            title={tile.first_name+" "+tile.last_name}
+                                            title={tile.first_name + " " + tile.last_name}
                                         />
                                     </GridListTile>
                                 ))}

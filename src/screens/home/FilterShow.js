@@ -11,7 +11,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-import CardMovies from './CardMovies';
+// import CardMovies from './CardMovies';
 // import { useNavigate } from 'react-router-dom';
 
 const styles = theme => ({
@@ -68,8 +68,8 @@ function FilterShow(props) {
 
         e.preventDefault();
         // console.log(filters);
-        alert('submit clicked');
-        return(<CardMovies filters = {filters} />);
+        props.resetHandler('reset');
+        props.onSubmitHandler(filters);
 
     }
 
