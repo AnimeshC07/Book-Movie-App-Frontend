@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -37,11 +37,11 @@ function Header(props) {
     setShowModal(false);
   }
 
-  const LogoutReq = async()=>{
-    await fetch("/api/v1/auth/logout",{
+  const LogoutReq = async () => {
+    await fetch("/api/v1/auth/logout", {
       method: 'POST',
       headers: {
-          authorization: `Basic ${auth}`
+        authorization: `Basic ${auth}`
       }
     })
   }
@@ -50,14 +50,14 @@ function Header(props) {
     console.log(props.baseUrl);
   }, []);
 
-  const onLogoutReq = ()=>{
+  const onLogoutReq = () => {
     LogoutReq();
     window.sessionStorage.clear();
     // history(-1);
   }
 
   let button;
-// functionality related to login button : login / logout display
+  // functionality related to login button : login / logout display
   if (auth == null) {
     button = <Button id="login-btn" variant="contained" color="default" onClick={() => onOpenModal()}>Login</Button>;
   } else {
@@ -66,16 +66,18 @@ function Header(props) {
 
   // functionality related to book show button : visible only in details page + login / book show functionality
   let bookButton;
-  if(props.baseUrl.includes('movie')){
-    if(auth == null){
-      bookButton = <Button id="bookshow-btn" variant="contained" color="primary" onClick={() => onOpenModal()}>Book Show</Button>;
+  if (props.baseUrl !== undefined) {
+    if (props.baseUrl.includes('movie')) {
+      if (auth == null) {
+        bookButton = <Button id="bookshow-btn" variant="contained" color="primary" onClick={() => onOpenModal()}>Book Show</Button>;
+      }
+      else {
+        bookButton = <Link to={`/bookshow/${props.id}`} style={{ textDecoration: 'none' }}><Button id="bookshow-btn" variant="contained" color="primary" >Book Show</Button></Link>;
+      }
+    } else {
+      bookButton = <span></span>;
     }
-    else{
-      bookButton = <Link to={`/bookshow/${props.id}`} style={{ textDecoration: 'none' }}><Button id="bookshow-btn" variant="contained" color="primary" >Book Show</Button></Link>;
-    }
-  }else{
-    bookButton = <span></span>;
-  } 
+  }
 
   return (
     <div className={classes.root}>
