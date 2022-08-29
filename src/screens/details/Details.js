@@ -59,7 +59,8 @@ function Details(props) {
                 const thisData = await data.filter((movie) => {
                     return movie.id === props.match.params.id;
                 })
-                thisData[0].trailer_url = thisData[0].trailer_url.replace('watch?v=', 'embed/');
+                const regex = /[\watch]+[/]*\?v=/;
+                thisData[0].trailer_url = thisData[0].trailer_url.replace(regex, 'embed/'); // 'watch?v=' || 'watch/?v='
                 thisData[0].genres = thisData[0].genres.join(', ');
                 let mydate = new Date(thisData[0].release_date);
                 thisData[0].release_date = mydate.toDateString();
